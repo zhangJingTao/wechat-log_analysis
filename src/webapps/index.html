@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <!-- 引入 ECharts 文件 -->
+    <script src="jquery.min.js"></script>
+    <script src="echarts.min.js"></script>
+    <script src="vintage.js"></script>
+    <script src="data.json"></script>
+    <link href="http://cdn.bootcss.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+</head>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(window).resize(function () {
+            myChart.resize();
+        })
+    })
+
+</script>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="height: 800px;" id="main"></div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'), 'vintage');
+    var opt = {
+
+        title: {
+            text: '分析结果',
+            left: 'center'
+        },
+
+        tooltip: {
+            formatter: function (info) {
+                var value = info.value;
+                return info.name+'<br>'+'次数: ' + value;
+            }
+        },
+
+        series: [
+            {
+                name: '词汇',
+                type: 'treemap',
+                visibleMin: 300,
+                label: {
+                    show: true,
+                    formatter: '{b}'
+                },
+                itemStyle: {
+                    normal: {
+                        borderColor: '#fff'
+                    }
+                },
+                levels: getLevelOption(),
+                data: diskData
+            }
+        ]
+    };
+
+    var formatUtil = echarts.format;
+
+    function getLevelOption() {
+        return [
+            {
+                itemStyle: {
+                    normal: {
+                        borderWidth: 0,
+                        gapWidth: 5
+                    }
+                }
+            },
+            {
+                itemStyle: {
+                    normal: {
+                        gapWidth: 1
+                    }
+                }
+            },
+            {
+                colorSaturation: [0.35, 0.5],
+                itemStyle: {
+                    normal: {
+                        gapWidth: 1,
+                        borderColorSaturation: 0.6
+                    }
+                }
+            }
+        ];
+    }
+
+    myChart.setOption(option = opt);
+</script>
+
+</div>
+</body>
+</html>
